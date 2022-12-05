@@ -1,16 +1,43 @@
-import React from "react";
-import ActiveTask from "../active-task";
-import EditTask from "../edit-task";
-import CompletedTask from "../completed-task";
+import React, { Component } from 'react';
+import EditTask from '../edit-task/edit-task';
 
 import './task.css';
 
-
-const Task = ({item: {edit, label, completed}}) => {
-    
- return edit ? <EditTask label={label}/> : completed ? <ActiveTask label={label}/> : <CompletedTask label={label}/>
-
-};
+export default class Task extends Component {
 
 
-export default Task;
+  render() {
+
+    const { label, onDeleted,
+            onToggleCompleted,
+            onToggleEdit, 
+            completed, edit} = this.props;
+
+    let classNames = 'view'
+
+    if (completed) {
+      classNames+= ' completed'
+    }
+
+    if (edit) {
+        classNames+= ' edit'
+    }
+
+     return ( edit ? <EditTask/> :
+      <div className={classNames}>
+        <input
+        className="toggle"
+         type="checkbox" 
+         onClick={onToggleCompleted}/>
+        <label className="task-label">
+          <span className="description">{label}</span>
+          <span className="created">created 17 seconds ago</span>
+        </label>
+        <button className="icon icon-edit"
+        onClick={onToggleEdit}></button>
+        <button className="icon icon-destroy"
+        onClick={onDeleted}></button>
+      </div>
+    );
+  }
+}

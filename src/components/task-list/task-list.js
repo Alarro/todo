@@ -3,21 +3,32 @@ import React from "react";
 import Task from '../task';
 import './task-list.css';
 
-const TaskList = ( {todos} ) => {
+const TaskList = ( {todos, onDeleted, onToggleCompleted, onToggleEdit} ) => {
+    const elements = todos.map((item) => {
 
-    return (
-        <section className='main'>
-            <ul className='todo-list'>
-        {todos.map((item) => {
-
+        const { id, className, ...itemProps } = item;
+    
         return (
-            <li key={item.id} className={item.className}>
-                <Task item={item}/>
-            </li>
+          <li key={id} className='task'>
+            <Task 
+            {... itemProps} 
+            onDeleted={() => onDeleted(id)}
+            onToggleCompleted={() => onToggleCompleted(id)}
+            onToggleEdit={() => onToggleEdit(id)}/>
+          </li>
         );
-    })}
-    </ul>
-    </section>
-)};
+      });
+
+
+      return (
+      <section className="main">
+        <ul className='todo-list'>
+        {elements}
+        </ul>
+        </section>
+      )
+    };
+    
+
 
 export default TaskList;
