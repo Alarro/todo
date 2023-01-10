@@ -17,23 +17,21 @@ export default class App extends Component {
       this.createItem('Active task'),
     ],
     filter: 'all',
+    min: '',
+    sec: '',
   };
 
   createItem(label) {
-    const createdDate = formatDistanceToNow(new Date(), {
-      includeSeconds: true,
-    });
-
     return {
       label,
       completed: false,
       edit: false,
       id: this.maxId++,
-      createdDate
+      created: new Date ()
     };
   }
 
-  addItem = (text) => {
+  addItem = (text, min, sec) => {
     const newItem = this.createItem(text);
 
     this.setState(({ todoData }) => {
@@ -41,6 +39,8 @@ export default class App extends Component {
 
       return {
         todoData: newArr,
+        min: min,
+        sec: sec
       };
     });
   };
@@ -120,7 +120,9 @@ export default class App extends Component {
           onToggleCompleted={this.onToggleCompleted}
           onToggleEdit={this.onToggleEdit}
           editLabel={this.editLabel}
-          createdDate={this.createdDate}
+          created={this.created}
+          min={this.state.min}
+          sec={this.state.sec}
         />
         <AppFooter
           todoCount={todoCount}

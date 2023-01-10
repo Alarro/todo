@@ -9,7 +9,8 @@ const TaskList = ({
   onToggleCompleted,
   onToggleEdit,
   editLabel,
-  checked
+  min, 
+  sec
 }) => {
   const elements = todos.map((item) => {
     const { id, className, ...itemProps } = item;
@@ -22,6 +23,8 @@ const TaskList = ({
           onToggleCompleted={() => onToggleCompleted(id)}
           onToggleEdit={() => onToggleEdit(id)}
           editLabel={editLabel}
+          min={min}
+          sec={sec}
         />
       </li>
     );

@@ -1,9 +1,21 @@
 import React, { Component } from "react";
 import EditTask from "../edit-task/edit-task";
+import PropTypes from 'prop-types';
+import { formatDistanceToNow } from 'date-fns';
+
+import Timer from "../timer";
 
 import "./task.css";
 
 export default class Task extends Component {
+
+  static defaultProps = {
+    label: 'Default content (defaultProps)',
+  };
+  static propTypes = {
+    label: PropTypes.string,
+  };
+
   render() {
     const {
       label,
@@ -14,7 +26,9 @@ export default class Task extends Component {
       editLabel,
       completed,
       edit,
-      createdDate
+      created,
+      min,
+      sec
     } = this.props;
     let classNames = "view";
 
@@ -37,8 +51,9 @@ export default class Task extends Component {
       <div className={classNames}>
         <input className="toggle" type="checkbox" onChange={onToggleCompleted} checked={completed} />
         <label className="task-label">
-          <span className="description">{label}</span>
-          <span className="created">created {createdDate} ago</span>
+          <span className="created">{label}</span>
+          <Timer min={min} sec={sec} />
+          <span className="description">{formatDistanceToNow(created)}</span>
         </label>
         <button className="icon icon-edit" onClick={onToggleEdit}></button>
         <button className="icon icon-destroy" onClick={onDeleted}></button>
